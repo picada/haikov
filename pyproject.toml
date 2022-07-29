@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "haikov"
+version = "0.1.0"
+description = ""
+authors = ["picada <mila.katajisto@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+cowsay = "^5.0"
+invoke = "^1.7.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+coverage = "^6.4.2"
+pylint = "^2.14.5"
+autopep8 = "^1.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
