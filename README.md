@@ -8,4 +8,6 @@ A Haiku generator that uses Markov Chains.
 
 ## Weekly Reports
 
-[Week 1](https://github.com/picada/tiralabra-markov-generator/blob/main/documentation/weekly_report_1.md)
+[Week 1](https://github.com/picada/tiralabra-markov-generator/blob/main/documentation/weekly_report_1.md)  
+[Week 2](https://github.com/picada/tiralabra-markov-generator/blob/main/documentation/weekly_report_2.md)
+
