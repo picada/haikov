@@ -6,8 +6,8 @@ authors = ["picada <mila.katajisto@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-cowsay = "^5.0"
 invoke = "^1.7.1"
+nltk = "^3.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
