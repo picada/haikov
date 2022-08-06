@@ -14,7 +14,7 @@ Maybe still a bit unclear, if it's ok to import for example `random` or should t
 
 ## What's next?
 
-Refining the haiku logic and formatting (for example suffixes shoudn't be allowed as first words of a line, extra white spaces need to be removed etc.). Adding more tests and documentation (inside the code as well). Adding more options to the UI, maybe moving away from a text based UI if there's time. Also aiming to improve error handling, and might restructure a bit - there's currently maybe a bit too much stuff in `haiku_generator.py`
+Refining the haiku logic and formatting (for example suffixes or punctuation shoudn't be allowed as first words of a line, extra white spaces need to be removed etc.). Adding more tests and documentation (inside the code as well). Improving the UI and adding more options, maybe moving away from a text based UI if there's time. Also aiming to improve error handling, and might restructure a bit - there's currently maybe a bit too much stuff in `haiku_generator.py`
 
 ## Time spent on the project during this week
 
