@@ -1,3 +1,5 @@
+import string
+
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
 
@@ -22,7 +24,6 @@ class InputProcessor:
         input_file : String
         """
 
-        self.clear_content()
         print(f"Reading file '{input_file}'.")
 
         try:
@@ -32,6 +33,8 @@ class InputProcessor:
             file.close()
         except IOError:
             print(f"Failed to read file '{input_file}'.")
+            return False
+        return True
 
     def _tokenize_input(self):
         """ Preprocesses the input to a tokenized form
@@ -41,8 +44,15 @@ class InputProcessor:
         normalized_input = self.input.lower()
         sentences = sent_tokenize(normalized_input)
         for sentence in sentences:
+            sentence = self._remove_punctuation(sentence)
             tokenized_sentence = word_tokenize((sentence))
             self.tokenized_input.append((tokenized_sentence))
+
+    def _remove_punctuation(self, sentence):
+        punctuation = string.punctuation.translate(
+            {ord(i): None for i in "',-"})
+        sentence = sentence.translate({ord(i): None for i in punctuation})
+        return sentence
 
     def read_and_preprocess_input(self, input_file):
         """ Reads the given input file and preprocesses the input to a tokenized form.

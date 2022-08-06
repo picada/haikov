@@ -1,10 +1,11 @@
 from node import Node
 
+
 class Trie:
-    def __init__(self, input_text="", depth=0):
+    def __init__(self, data="", depth=2):
         self.depth = depth
         self.root = Node()
-        self.input_text = input_text
+        self.data = data
 
     def _reset(self):
         """Resets the root node to an empty node
@@ -12,10 +13,10 @@ class Trie:
         self.root = Node()
 
     def create_trie(self):
-        """Creates a new trie structure based on the input_textand defined depth.
+        """Creates a new trie structure based on the data and defined depth.
         """
         self._reset()
-        for sentence in self.input_text:
+        for sentence in self.data:
             for i in range(len(sentence) - (self.depth-1)):
                 self._add_segment(sentence[i:i+self.depth])
 

@@ -12,7 +12,7 @@ class TestTrie(unittest.TestCase):
         self.assertEqual(self.node.value, "test")
         self.assertEqual(self.node.count, 1)
         self.assertEqual(self.node.children, {})
-    
+
     def test_create_add_child(self):
         child_node = self.node.add_child("child")
         children = self.node.children
@@ -26,5 +26,4 @@ class TestTrie(unittest.TestCase):
     def test_find_child_returns_none_if_no_match(self):
         result = self.node.find_child("none")
         self.assertEqual(result, None)
-
-
+        

@@ -35,9 +35,8 @@ class Node:
         return None
 
     def print_children(self, indent=""):
-        """Prints the children of the current node
+        """Prints the children of the current node to stdout
         """
         for token, node in self.children.items():
             print(indent + str(token + ":" + str(node.count)))
             node.print_children(indent + "  ")
-            
