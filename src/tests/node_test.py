@@ -26,4 +26,3 @@ class TestTrie(unittest.TestCase):
     def test_find_child_returns_none_if_no_match(self):
         result = self.node.find_child("none")
         self.assertEqual(result, None)
-        

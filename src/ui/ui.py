@@ -9,7 +9,7 @@ class UI:
         self.trie = Trie()
         self.degree = 2
         self.tokenized_input = self.input_processor.read_and_preprocess_input(
-            "data/trees_and_other_poems_joyce_kilmer.txt")
+            "data/poems_by_emily_dickinson.txt")
 
         self.trie = Trie(self.tokenized_input, self.degree+1)
         self.trie.create_trie()

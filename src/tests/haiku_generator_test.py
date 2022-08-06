@@ -22,7 +22,7 @@ class TestHaikuGenerator(unittest.TestCase):
 
     def test_attempt_haiku_generation_enough_times_before_raising_exception(self):
         self.hg._trie = Trie()
-        with self.assertRaises(Exception) as context: 
+        with self.assertRaises(Exception) as context:
             self.hg.attempt_haiku_generation()
         self.assertEqual(
             "Unable to create a valid haiku with the given input and settings", str(context.exception))
@@ -69,7 +69,7 @@ class TestHaikuGenerator(unittest.TestCase):
 
     def test_is_valid_token_returns_true_if_token_in_accepted_exceptions(self):
         token = "n't"
-        result = self.hg._is_valid_token(token, 10)
+        result = self.hg._is_valid_token(token, 4)
         self.assertTrue(result)
         return True
 
@@ -81,6 +81,17 @@ class TestHaikuGenerator(unittest.TestCase):
     def test_is_valid_token_returns_false_when_token_not_in_dictionary(self):
         token = "asdfadf"
         result = self.hg._is_valid_token(token, 10)
+        self.assertFalse(result)
+
+    def test_is_valid_token_returns_false_when_first_token_in_line_is_not_alpha(self):
+        token = "'s"
+        result = self.hg._is_valid_token(token, 5)
+        self.assertFalse(result)
+
+    def test_is_valid_token_returns_false_when_last_token_in_haiku_is_stopword(self):
+        token = "and"
+        self.hg._line = 3
+        result = self.hg._is_valid_token(token, 1)
         self.assertFalse(result)
 
     def _is_valid_haiku(self):
@@ -105,4 +116,3 @@ class TestHaikuGenerator(unittest.TestCase):
         result = self.hg.get_values_and_weights(nodes)
         expected_result = (["test", "testtest"], [1, 2])
         self.assertEqual(result, expected_result)
-

@@ -1,10 +1,11 @@
 import random
 
 import nltk
-from nltk.corpus import cmudict
+from nltk.corpus import cmudict, stopwords
 from nltk.tokenize import word_tokenize
 
 nltk.download('cmudict')
+nltk.download('stopwords')
 syllable_dict = cmudict.dict()
 
 MAX_ATTEMPTS = 100
@@ -17,6 +18,8 @@ class HaikuGenerator:
         self._line = 1
         self._trie = trie
         self._degree = degree
+
+        self.syllable_limits = {1: 5, 2: 7, 3: 5}
 
     def attempt_haiku_generation(self):
         self.attempt = 1
@@ -39,11 +42,11 @@ class HaikuGenerator:
         first_word = random.choices(choices)[0]
         segment = [first_word]
         while self._line <= 3:
-            syllables = 7 if self._line == 2 else 5
+            syllables = self.syllable_limits[self._line]
             try:
                 line = self.generate_line(segment, syllables)
                 haiku += line
-            except Exception: # pylint: disable=broad-except
+            except Exception:  # pylint: disable=broad-except
                 break
             self._line += 1
         return haiku
@@ -111,7 +114,13 @@ class HaikuGenerator:
 
     def _is_valid_token(self, token, remaining_syllables):
         allowed_excpetions = ["n't", ",", "-"]
-        if token in allowed_excpetions:
+        syllables = self.syllable_limits[self._line]
+        stop_words = set(stopwords.words('english'))
+        if remaining_syllables == syllables and not token.isalpha():
+            return False
+        if self._line == 3 and remaining_syllables == 1 and token in stop_words:
+            return False
+        if token in allowed_excpetions and (self._line < 3 or remaining_syllables > 1):
             return True
         return (token in syllable_dict and
                 self._count_syllables_in_token(token) <= remaining_syllables)
@@ -121,9 +130,8 @@ class HaikuGenerator:
         if len(haiku_lines) != 3:
             return False
         for index, line in enumerate(haiku_lines, start=1):
-            syllables = 7 if index == 2 else 5
             syllable_count = self._count_syllables_in_line(line)
-            if syllables != syllable_count:
+            if syllable_count != self.syllable_limits[index]:
                 return False
         return True
 
