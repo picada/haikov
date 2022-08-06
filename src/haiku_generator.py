@@ -84,7 +84,6 @@ class HaikuGenerator:
     def _count_syllables_in_token(self, value):
         """Counts the number of syllables in a word.
         Each sylllable corresponds to one vowel phoneme in the CMU pronounciation dictionary.
-        The special case of "n't" is handled separat3ely
 
         Args:
             value: String

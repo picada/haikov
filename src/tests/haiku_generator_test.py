@@ -60,15 +60,6 @@ class TestHaikuGenerator(unittest.TestCase):
         self.assertEqual(
             "Couldn't find valid choices for the next word.", str(context.exception))
 
-    def _count_syllables_in_token(self):
-        return True
-
-    def _count_syllables_in_line(self):
-        return True
-
-    def _is_vowel(self):
-        return True
-
     def test_is_valid_token_return_true_for_valid_token(self):
         # syllable count for "meow" is 2 and it can be found in the cmu dictionary
         token = "meow"
