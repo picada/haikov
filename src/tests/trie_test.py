@@ -17,7 +17,7 @@ class TestTrie(unittest.TestCase):
             ["this", "is", "second", "."]
         ]
         self.segment = ["test", "segment"]
-        self.trie = Trie(self.tokens, 2)
+        self.trie = Trie(2)
         self.root = self.trie.root
 
     def assertNodeIsCorrect(self, node, value, count, children_count):
@@ -30,8 +30,7 @@ class TestTrie(unittest.TestCase):
         self.assertEqual(self.root.value, "")
         self.assertEqual(self.root.children, {})
 
-    def test_trie_is_initialized_with_correct_data(self):
-        self.assertEqual(self.trie.data, self.tokens)
+    def test_trie_is_initialized_with_correct_degree(self):
         self.assertEqual(self.trie.depth, 2)
 
     def test_create_add_segment(self):
@@ -70,7 +69,7 @@ class TestTrie(unittest.TestCase):
         self.assertIsNone(result)
 
     def test_create_trie(self):
-        self.trie.create_trie()
+        self.trie.create_trie(self.tokens)
         children = self.trie.root.children
         expected_root_children_keys = ["this", "is", "first", "second"]
         root_children_keys = [*children]
@@ -83,7 +82,7 @@ class TestTrie(unittest.TestCase):
             self.assertNotEqual(children[key].children, {})
 
     def test_print_trie(self):
-        self.trie.create_trie()
+        self.trie.create_trie(self.tokens)
         self.trie.print_trie()
         output = self.capsys.readouterr()
         expected_output = "this:2\n  is:2\nis:2\n  first:1\n  second:1\nfirst:1\n  .:1\nsecond:1\n  .:1\n"

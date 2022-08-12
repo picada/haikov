@@ -2,21 +2,20 @@ from node import Node
 
 
 class Trie:
-    def __init__(self, data="", depth=2):
+    def __init__(self, depth=2):
         self.depth = depth
         self.root = Node()
-        self.data = data
 
     def _reset(self):
         """Resets the root node to an empty node
         """
         self.root = Node()
 
-    def create_trie(self):
+    def create_trie(self, data):
         """Creates a new trie structure based on the data and defined depth.
         """
         self._reset()
-        for sentence in self.data:
+        for sentence in data:
             for i in range(len(sentence) - (self.depth-1)):
                 self._add_segment(sentence[i:i+self.depth])
 

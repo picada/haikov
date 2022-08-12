@@ -14,14 +14,13 @@ class TestHaikuGenerator(unittest.TestCase):
         self.data = [["woof", "woof", "woof", "woof"],
                      ["woof", "woof", "woof", "woof"]]
         self.expected_haiku = """woof woof woof woof woof
- woof woof woof woof woof woof woof
- woof woof woof woof woof"""
-        trie = Trie(self.data)
-        trie.create_trie()
-        self.hg = HaikuGenerator(trie, 1)
+woof woof woof woof woof woof woof
+woof woof woof woof woof"""
+        self.hg = HaikuGenerator(2)
+        self.hg.trie.create_trie(self.data)
 
     def test_attempt_haiku_generation_enough_times_before_raising_exception(self):
-        self.hg._trie = Trie()
+        self.hg.trie = Trie()
         with self.assertRaises(Exception) as context:
             self.hg.attempt_haiku_generation()
         self.assertEqual(
@@ -30,7 +29,8 @@ class TestHaikuGenerator(unittest.TestCase):
 
     def test_generate_haiku_generation(self):
         result = self.hg.attempt_haiku_generation()
-        self.assertEqual(result, self.expected_haiku)
+        expected = self.expected_haiku.capitalize()
+        self.assertEqual(result, expected)
 
     def test_generate_haiku(self):
         result = self.hg.generate_haiku()

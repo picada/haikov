@@ -23,7 +23,7 @@ class InputProcessor:
         Args:
         input_file : String
         """
-
+        self.clear_content()
         print(f"Reading file '{input_file}'.")
 
         try:

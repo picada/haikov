@@ -4,6 +4,8 @@ import nltk
 from nltk.corpus import cmudict, stopwords
 from nltk.tokenize import word_tokenize
 
+from trie import Trie
+
 nltk.download('cmudict')
 nltk.download('stopwords')
 syllable_dict = cmudict.dict()
@@ -12,13 +14,12 @@ MAX_ATTEMPTS = 100
 
 
 class HaikuGenerator:
-    def __init__(self, trie, degree):
+    def __init__(self, degree):
         self.attempt = 1
         self._max_attempts = MAX_ATTEMPTS
         self._line = 1
-        self._trie = trie
         self._degree = degree
-
+        self.trie = Trie(degree + 1)
         self.syllable_limits = {1: 5, 2: 7, 3: 5}
 
     def attempt_haiku_generation(self):
@@ -26,8 +27,7 @@ class HaikuGenerator:
         while self.attempt <= self._max_attempts:
             haiku = self.generate_haiku()
             if self._is_valid_haiku(haiku):
-                print("attempt: " + str(self.attempt))
-                return haiku
+                return self.get_formatted_haiku(haiku)
             self.attempt += 1
         raise Exception(
             "Unable to create a valid haiku with the given input and settings")
@@ -35,7 +35,7 @@ class HaikuGenerator:
     def generate_haiku(self):
         haiku = ""
         self._line = 1
-        tokens = [*self._trie.root.children]
+        tokens = [*self.trie.root.children]
         choices = [token for token in tokens if token.isalpha()]
         if not choices:
             return haiku
@@ -53,15 +53,17 @@ class HaikuGenerator:
 
     def generate_line(self, segment, syllables):
         line = segment[0] if self._line == 1 else ""
-        remaining_syllables = syllables - self._count_syllables_in_token(line)
+        remaining_syllables = syllables - self._count_syllables_in_line(line)
 
         while remaining_syllables > 0:
-            node = self._trie.find_segment(segment)
+            node = self.trie.find_segment(segment)
             if not node:
                 raise Exception("Segment not found in trie")
             try:
                 token = self.generate_word(node, remaining_syllables)
-                line += " " + token
+                if token.isalpha() and remaining_syllables != self.syllable_limits[self._line]:
+                    line += " "
+                line += token
                 segment.append(token)
                 if len(segment) > self._degree:
                     segment.pop(0)
@@ -139,3 +141,8 @@ class HaikuGenerator:
         values = [node.value for node in nodes]
         weights = [node.count for node in nodes]
         return (values, weights)
+
+    def get_formatted_haiku(self, haiku):
+        haiku = haiku.capitalize()
+        haiku = haiku.replace(" i ", " I ")
+        return haiku

@@ -1,20 +1,16 @@
+import os
 from haiku_generator import HaikuGenerator
 from input_processor import InputProcessor
-from trie import Trie
 
 
 class UI:
     def __init__(self):
-        self.input_processor = InputProcessor()
-        self.trie = Trie()
+        self._input_file = ""
+        self._directory = "./data"
+        self._input_processor = InputProcessor()
+        
         self.degree = 2
-        self.tokenized_input = self.input_processor.read_and_preprocess_input(
-            "data/poems_by_emily_dickinson.txt")
-
-        self.trie = Trie(self.tokenized_input, self.degree+1)
-        self.trie.create_trie()
-
-        self.haiku_generator = HaikuGenerator(self.trie, self.degree)
+        self.haiku_generator = HaikuGenerator(self.degree)
 
     def launch(self):
         """Loop for the main UI, called when launching the program
@@ -26,11 +22,10 @@ class UI:
                 print("Bye!")
                 break
             if command == "1":
-                self.input_processor.read_and_preprocess_input(
-                    "data/test.txt")
+                self._select_input()
                 continue
             if command == "2":
-                self.trie.print_trie()
+                self.haiku_generator.trie.print_trie()
                 continue
             if command == "3":
                 try:
@@ -39,6 +34,22 @@ class UI:
                 except Exception as exception:
                     print(exception)
                 continue
+
+    def _select_input(self):
+        file_names = os.listdir(self._directory)
+        options = {}
+        for index, file in enumerate(file_names, start=1):
+            options[index] = file
+        print("Available files:", end="\n\n")
+        for key in options:
+            print(f"""{key} - {options[key]}""")
+        selection = (input("\nChoose input file: ",))
+        if selection.isdigit() and int(selection) in [*options]:
+            self._input_file = options[int(selection)]
+            data = self._input_processor.read_and_preprocess_input(f"{self._directory}/{self._input_file}")
+            self.haiku_generator.trie.create_trie(data)
+        else:
+            print("Invalid selection.")
 
     def _print_menu(self):
         """Prints the main menu with available selections
@@ -50,11 +61,18 @@ class UI:
 
 Main menu
 
-1 - Test file reading (from a preset test file)
-2 - Print the trie created from the (preset) input file
-3 - Generate a haiku based on the (preset) input file
+{self._get_menu_selections()}
 0 - Quit
 
 -----------------------
 
 """)
+
+    def _get_menu_selections(self):
+        if self._input_file == "":
+            return "1 - Select input file"
+        return f"""Current input file: {self._input_file}
+        
+1 - Select new input file
+2 - Print the trie created from the current input file
+3 - Generate a haiku based on the current input file"""
