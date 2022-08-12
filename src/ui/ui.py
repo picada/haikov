@@ -51,6 +51,7 @@ class UI:
         else:
             print("Invalid selection.")
 
+# todo: clean up formatting in menu
     def _print_menu(self):
         """Prints the main menu with available selections
         """

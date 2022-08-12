@@ -38,13 +38,13 @@ woof woof woof woof woof"""
 
     def test_generate_line(self):
         segment = ["woof"]
-        result = self.hg.generate_line(segment, 5)
+        result = self.hg.generate_line(segment)
         self.assertEqual(result, "woof woof woof woof woof\n")
 
     def test_generate_line_throws_exception_if_segment_not_found_in_trie(self):
         segment = ["not", "in", "trie"]
         with self.assertRaises(Exception) as context:
-            self.hg.generate_line(segment, 5)
+            self.hg.generate_line(segment)
         self.assertEqual("Segment not found in trie", str(context.exception))
 
     def test_generate_word(self):
@@ -116,3 +116,4 @@ woof woof woof woof woof"""
         result = self.hg.get_values_and_weights(nodes)
         expected_result = (["test", "testtest"], [1, 2])
         self.assertEqual(result, expected_result)
+        

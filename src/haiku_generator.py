@@ -23,6 +23,12 @@ class HaikuGenerator:
         self.syllable_limits = {1: 5, 2: 7, 3: 5}
 
     def attempt_haiku_generation(self):
+        """Attempst to generate a valid haiku with the current settings. If a valid haiku cannot
+        be created with attempt limit defined in MAX_ATTEMPTS, give up.
+
+        Returns:
+            The formatted generated haiku as a string
+        """
         self.attempt = 1
         while self.attempt <= self._max_attempts:
             haiku = self.generate_haiku()
@@ -33,6 +39,12 @@ class HaikuGenerator:
             "Unable to create a valid haiku with the given input and settings")
 
     def generate_haiku(self):
+        """Attempst to generate a valid haiku with the current settings. For the time
+        being, the first word is picked by random
+
+        Returns:
+            The generated haiku as a string
+        """
         haiku = ""
         self._line = 1
         tokens = [*self.trie.root.children]
@@ -42,18 +54,29 @@ class HaikuGenerator:
         first_word = random.choices(choices)[0]
         segment = [first_word]
         while self._line <= 3:
-            syllables = self.syllable_limits[self._line]
             try:
-                line = self.generate_line(segment, syllables)
+                line = self.generate_line(segment)
                 haiku += line
+            # todo: improve error handling
             except Exception:  # pylint: disable=broad-except
                 break
             self._line += 1
         return haiku
 
-    def generate_line(self, segment, syllables):
+    def generate_line(self, segment):
+        """Attempst to generate a new line based on the given segment.
+        The amount of syllables in the line is dictaded by self.syllable_limits
+        and self._line
+
+        Args:
+            segment: Array of arrays of strings
+
+        Returns:
+            The generated line as a string
+        """
         line = segment[0] if self._line == 1 else ""
-        remaining_syllables = syllables - self._count_syllables_in_line(line)
+        syllable_limit = self.syllable_limits[self._line]
+        remaining_syllables = syllable_limit - self._count_syllables_in_line(line)
 
         while remaining_syllables > 0:
             node = self.trie.find_segment(segment)
@@ -75,6 +98,16 @@ class HaikuGenerator:
         return line
 
     def generate_word(self, node, remaining_syllables):
+        """Attempst to generate a word based on the given node and
+        remaining syllables in the line
+
+        Args:
+            node: Node object
+            remaining_syllables: number of remaining syllables
+
+        Returns:
+            The generated word as a string
+        """
         choices_all = node.children
         valid_choices = dict(filter(lambda choice: self._is_valid_token(
             choice[0], remaining_syllables), choices_all.items()))
