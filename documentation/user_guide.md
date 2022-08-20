@@ -45,7 +45,7 @@ Here you have a few options:
 3. Change Markov chain order - Changes the Markov order based on the input and updates the trie accordingly
 4. Generate a haiku based on the current input file - Creates a haiku based on the current settings and prints it to the terminal. If a valid
 haiku cannot be created with the given input and settings, and error message will appear instead. 
-5. Quit
+0. Quit
 
 After generating a new haiku, you can either create a new one with the same settings by pressing enter, or return to the main menu with 0.
 
