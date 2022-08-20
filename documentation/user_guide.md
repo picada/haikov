@@ -40,12 +40,12 @@ access the main menu.
 
 Here you have a few options:
 
-1. Select new input file - opens the input selection menu
-2. Print the trie created from the current input file - Prints a string representation of the trie structure to the terminal
-3. Change Markov chain order - Changes the Markov order based on the input and updates the trie accordingly
-4. Generate a haiku based on the current input file - Creates a haiku based on the current settings and prints it to the terminal. If a valid
-haiku cannot be created with the given input and settings, and error message will appear instead. 
-0. Quit
+1 - Select new input file - opens the input selection menu     
+2 - Print the trie created from the current input file - Prints a string representation of the trie structure to the terminal      
+3 - Change Markov chain order - Changes the Markov order based on the input and updates the trie accordingly      
+4 - Generate a haiku based on the current input file - Creates a haiku based on the current settings and prints it to the terminal. If a valid      
+    haiku cannot be created with the given input and settings, and error message will appear instead      
+0 - Quit
 
 After generating a new haiku, you can either create a new one with the same settings by pressing enter, or return to the main menu with 0.
 
