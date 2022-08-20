@@ -2,6 +2,7 @@ import shutil
 import tempfile
 from os import path
 import unittest
+from collections import Counter
 
 from haiku_generator import HaikuGenerator
 from node import Node
@@ -60,18 +61,51 @@ woof woof woof woof woof"""
         self.assertEqual(
             "Couldn't find valid choices for the next word.", str(context.exception))
 
-    def test_is_valid_token_return_true_for_valid_token(self):
+    def test_random_node_returns_weighted_results(self):
+        node_1 = Node("second")
+        node_2 = Node("first")
+        node_3 = Node("third")
+        node_1.count = 10
+        node_2.count = 15
+        node_3.count = 5
+        choices = [node_1, node_2, node_3]
+        result = Counter(self.hg.get_random_node(choices) for _ in range(1000))
+        self.assertLess(result[node_3], result[node_1])
+        self.assertLess(result[node_1], result[node_2])
+
+    def test_get_random_node_returns_weighted_results(self):
+        node_1 = Node("second")
+        node_2 = Node("first")
+        node_3 = Node("third")
+        node_1.count = 10
+        node_2.count = 15
+        node_3.count = 5
+        choices = [node_1, node_2, node_3]
+        result = Counter(self.hg.get_random_node(choices) for _ in range(1000))
+        self.assertLess(result[node_3], result[node_1])
+        self.assertLess(result[node_1], result[node_2])
+
+    def test_count_syllables_in_token(self):
         # syllable count for "meow" is 2 and it can be found in the cmu dictionary
+        token = "meow"
+        result = self.hg._count_syllables_in_token(token)
+        self.assertEqual(result, 2)
+
+    def test_count_syllables_in_token_returns_0_if_not_found_in_cmu(self):
+        # syllable count for "meow" is 2 and it can be found in the cmu dictionary
+        token = "definitely-not-in-dictionary"
+        result = self.hg._count_syllables_in_token(token)
+        self.assertEqual(result, 0)
+
+    def test_is_valid_token_return_true_for_valid_token(self):
         token = "meow"
         result = self.hg._is_valid_token(token, 2)
         self.assertTrue(result)
-        return True
 
     def test_is_valid_token_returns_true_if_token_in_accepted_exceptions(self):
         token = "n't"
         result = self.hg._is_valid_token(token, 4)
         self.assertTrue(result)
-        return True
 
     def test_is_valid_token_returns_false_when_not_enough_syllables_left(self):
         token = "meow"
@@ -108,12 +142,7 @@ woof woof woof woof woof"""
         result = self.hg._is_valid_haiku(haiku)
         self.assertFalse(result)
 
-    def test_get_values_and_weights(self):
-        node = Node("test")
-        another_node = Node("testtest")
-        another_node.count += 1
-        nodes = [node, another_node]
-        result = self.hg.get_values_and_weights(nodes)
-        expected_result = (["test", "testtest"], [1, 2])
-        self.assertEqual(result, expected_result)
-        
+    def test_change_degree(self):
+        self.hg.change_degree(4)
+        self.assertEqual(self.hg._degree, 4)
+        self.assertEqual(self.hg.trie.depth, 5)
