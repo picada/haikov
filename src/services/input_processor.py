@@ -1,6 +1,7 @@
 import string
 
 import nltk
+from nltk.tag import pos_tag
 from nltk.tokenize import sent_tokenize, word_tokenize
 
 nltk.download('punkt')
@@ -21,7 +22,11 @@ class InputProcessor:
         """ Reads and processes the given file
 
         Args:
-        input_file : String
+            input_file : input file name as String
+
+        Returns:
+            True if file is read succesfully, otherwise False
+            
         """
         self.clear_content()
         print(f"Reading file '{input_file}'.")
@@ -49,6 +54,15 @@ class InputProcessor:
             self.tokenized_input.append((tokenized_sentence))
 
     def _remove_punctuation(self, sentence):
+        """Removes the punctuation from the given sentece. Ignores the agreed excpetions: ' , and -
+
+        Args:
+            sentence: String
+
+        Returns:
+            The input String without punctuation
+
+        """
         punctuation = string.punctuation.translate(
             {ord(i): None for i in "',-"})
         sentence = sentence.translate({ord(i): None for i in punctuation})
@@ -56,7 +70,14 @@ class InputProcessor:
 
     def read_and_preprocess_input(self, input_file):
         """ Reads the given input file and preprocesses the input to a tokenized form.
-        Returns a list of sentences, each presented as a list of the string tokens it contains
+
+        Args:
+            input_file: file name as String
+
+        Returns:
+            The tokenized input which is a list of sentences, 
+            each presented as a list of the string tokens it contains
+
         """
         self._read_file(input_file)
         self._tokenize_input()

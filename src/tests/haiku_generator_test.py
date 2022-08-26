@@ -4,9 +4,9 @@ from os import path
 import unittest
 from collections import Counter
 
-from haiku_generator import HaikuGenerator
-from node import Node
-from trie import Trie
+from services.haiku_generator import HaikuGenerator
+from entities.node import Node
+from entities.trie import Trie
 
 
 class TestHaikuGenerator(unittest.TestCase):

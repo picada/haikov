@@ -1,6 +1,6 @@
 import unittest
 
-from node import Node
+from entities.node import Node
 
 
 class TestTrie(unittest.TestCase):

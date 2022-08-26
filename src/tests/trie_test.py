@@ -1,8 +1,8 @@
 import pytest
 import unittest
 
-from node import Node
-from trie import Trie
+from entities.node import Node
+from entities.trie import Trie
 
 
 class TestTrie(unittest.TestCase):

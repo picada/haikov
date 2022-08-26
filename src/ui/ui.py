@@ -1,6 +1,6 @@
 import os
-from haiku_generator import HaikuGenerator
-from input_processor import InputProcessor
+from services.haiku_generator import HaikuGenerator
+from services.input_processor import InputProcessor
 
 
 class UI:

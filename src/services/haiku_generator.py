@@ -4,7 +4,7 @@ import nltk
 from nltk.corpus import cmudict, stopwords
 from nltk.tokenize import word_tokenize
 
-from trie import Trie
+from entities.trie import Trie
 
 nltk.download('cmudict')
 nltk.download('stopwords')

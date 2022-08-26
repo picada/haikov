@@ -3,7 +3,7 @@ import tempfile
 from os import path
 import unittest
 
-from input_processor import InputProcessor
+from services.input_processor import InputProcessor
 
 
 class TestInputProcessor(unittest.TestCase):

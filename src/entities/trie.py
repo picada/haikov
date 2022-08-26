@@ -1,4 +1,4 @@
-from node import Node
+from entities.node import Node
 
 
 class Trie:
