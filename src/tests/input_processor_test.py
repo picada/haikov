@@ -1,6 +1,3 @@
-import shutil
-import tempfile
-from os import path
 import unittest
 
 from services.input_processor import InputProcessor
@@ -15,7 +12,7 @@ class TestInputProcessor(unittest.TestCase):
     def test_clear_content(self):
         self.ip.input = "test input"
         self.ip.tokenized_input = ["test", "input"]
-        self.ip.clear_content()
+        self.ip._clear_content()
         self.assertEqual(self.ip.input, None)
         self.assertEqual((self.ip.tokenized_input), [])
 

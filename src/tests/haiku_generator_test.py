@@ -1,8 +1,4 @@
-import shutil
-import tempfile
-from os import path
 import unittest
-from collections import Counter
 
 from services.haiku_generator import HaikuGenerator
 from entities.node import Node
@@ -26,7 +22,7 @@ woof woof woof woof woof"""
             self.hg.attempt_haiku_generation()
         self.assertEqual(
             "Unable to create a valid haiku with the given input and settings", str(context.exception))
-        self.assertEqual(self.hg.attempt, 101)
+        self.assertEqual(self.hg._attempt, 101)
 
     def test_generate_haiku_generation(self):
         result = self.hg.attempt_haiku_generation()
@@ -39,51 +35,27 @@ woof woof woof woof woof"""
 
     def test_generate_line(self):
         segment = ["woof"]
-        result = self.hg.generate_line(segment)
+        result = self.hg._generate_line(segment)
         self.assertEqual(result, "woof woof woof woof woof\n")
 
     def test_generate_line_throws_exception_if_segment_not_found_in_trie(self):
         segment = ["not", "in", "trie"]
         with self.assertRaises(Exception) as context:
-            self.hg.generate_line(segment)
+            self.hg._generate_line(segment)
         self.assertEqual("Segment not found in trie", str(context.exception))
 
     def test_generate_word(self):
         node = Node()
         node.add_child("meow")
-        result = self.hg.generate_word(node, 2)
+        result = self.hg._generate_word(node, 2)
         self.assertEqual(result, "meow")
 
     def test_generate_word_fails_if_no_valid_choices(self):
         node = Node()
         with self.assertRaises(Exception) as context:
-            self.hg.generate_word(node, 5)
+            self.hg._generate_word(node, 5)
         self.assertEqual(
             "Couldn't find valid choices for the next word.", str(context.exception))
-
-    def test_random_node_returns_weighted_results(self):
-        node_1 = Node("second")
-        node_2 = Node("first")
-        node_3 = Node("third")
-        node_1.count = 10
-        node_2.count = 15
-        node_3.count = 5
-        choices = [node_1, node_2, node_3]
-        result = Counter(self.hg.get_random_node(choices) for _ in range(1000))
-        self.assertLess(result[node_3], result[node_1])
-        self.assertLess(result[node_1], result[node_2])
-
-    def test_get_random_node_returns_weighted_results(self):
-        node_1 = Node("second")
-        node_2 = Node("first")
-        node_3 = Node("third")
-        node_1.count = 10
-        node_2.count = 15
-        node_3.count = 5
-        choices = [node_1, node_2, node_3]
-        result = Counter(self.hg.get_random_node(choices) for _ in range(1000))
-        self.assertLess(result[node_3], result[node_1])
-        self.assertLess(result[node_1], result[node_2])
 
     def test_count_syllables_in_token(self):
         # syllable count for "meow" is 2 and it can be found in the cmu dictionary

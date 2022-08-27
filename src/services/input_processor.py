@@ -1,18 +1,22 @@
 import string
 
 import nltk
-from nltk.tag import pos_tag
 from nltk.tokenize import sent_tokenize, word_tokenize
 
 nltk.download('punkt')
 
 
 class InputProcessor:
+    """Class for reading and processing the input
+    """
+
     def __init__(self):
+        """Constructor for the class. Initializes an emtpy input state
+        """
         self.input = None
         self.tokenized_input = []
 
-    def clear_content(self):
+    def _clear_content(self):
         """ Clears the existing content.
         """
         self.input = None
@@ -26,9 +30,8 @@ class InputProcessor:
 
         Returns:
             True if file is read succesfully, otherwise False
-            
         """
-        self.clear_content()
+        self._clear_content()
         print(f"Reading file '{input_file}'.")
 
         try:
@@ -61,7 +64,6 @@ class InputProcessor:
 
         Returns:
             The input String without punctuation
-
         """
         punctuation = string.punctuation.translate(
             {ord(i): None for i in "',-"})
@@ -69,15 +71,14 @@ class InputProcessor:
         return sentence
 
     def read_and_preprocess_input(self, input_file):
-        """ Reads the given input file and preprocesses the input to a tokenized form.
+        """Reads the given input file and preprocesses the input to a tokenized form.
 
         Args:
             input_file: file name as String
 
         Returns:
-            The tokenized input which is a list of sentences, 
+            The tokenized input which is a list of sentences,
             each presented as a list of the string tokens it contains
-
         """
         self._read_file(input_file)
         self._tokenize_input()

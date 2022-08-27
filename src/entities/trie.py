@@ -2,7 +2,16 @@ from entities.node import Node
 
 
 class Trie:
+    """Class for the Trie structure
+    """
+
     def __init__(self, depth=2):
+        """Constructor for the class. Initializes the trie depth and
+        sets an empty node as the root
+
+        Args:
+            depth: number, depth of the trie structure
+        """
         self.depth = depth
         self.root = Node()
 
@@ -13,6 +22,9 @@ class Trie:
 
     def create_trie(self, data):
         """Creates a new trie structure based on the data and defined depth.
+
+        Args:
+            data: String
         """
         self._reset()
         for sentence in data:
@@ -21,6 +33,9 @@ class Trie:
 
     def _add_segment(self, segment):
         """Adds a new segment to the trie
+
+        Args:
+            collection of tokens to be insterted into the tree
         """
         current_node = self.root
         for token in segment:
@@ -29,7 +44,7 @@ class Trie:
                 child = current_node.add_child(token)
                 current_node = child
             else:
-                child.count += 1
+                child.increment_count()
                 current_node = child
 
     def find_segment(self, segment):
@@ -41,7 +56,6 @@ class Trie:
         Returns:
             The the node for the last token in the segment if found
             None if segment is not found in the trie
-
         """
         node = self.root
         for token in segment:
