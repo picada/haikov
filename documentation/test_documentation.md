@@ -21,7 +21,7 @@ Generate test coverage report:
 
 ### Test Coverage
 
-<img width="778" alt="Screenshot 2022-08-20 at 18 45 15" src="https://user-images.githubusercontent.com/32310572/185755337-7a8cbfa2-2310-4870-9f20-3394c8465b2d.png">
+<img width="856" alt="Screenshot 2022-08-27 at 18 39 46" src="https://user-images.githubusercontent.com/32310572/187037315-691caa10-1df8-43e1-82f1-d53b2b95e1c0.png">
 
 
 ## Code quality
