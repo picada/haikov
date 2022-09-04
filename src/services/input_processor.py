@@ -57,7 +57,7 @@ class InputProcessor:
             self.tokenized_input.append((tokenized_sentence))
 
     def _remove_punctuation(self, sentence):
-        """Removes the punctuation from the given sentece. Ignores the agreed excpetions: ' , and -
+        """Removes the punctuation from the given sentece. Ignores the agreed exceptions: ' , and -
 
         Args:
             sentence: String

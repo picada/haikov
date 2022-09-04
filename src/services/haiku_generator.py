@@ -1,5 +1,4 @@
 import random
-
 import nltk
 from nltk.corpus import cmudict, stopwords
 from nltk.tokenize import word_tokenize
@@ -68,7 +67,6 @@ class HaikuGenerator:
             try:
                 line = self._generate_line(segment)
                 haiku += line
-            # todo: improve error handling
             except Exception:  # pylint: disable=broad-except
                 break
             self._line += 1
@@ -110,7 +108,7 @@ class HaikuGenerator:
         return line
 
     def _generate_word(self, node, remaining_syllables):
-        """Attempst to generate a word based on the given node and
+        """Attempts to generate a word based on the given node and
         remaining syllables in the line
 
         Args:
@@ -233,6 +231,9 @@ class HaikuGenerator:
         haiku = haiku.replace(" i ", " I ")
         haiku = haiku.replace(" i\n", " I\n")
         haiku = haiku.replace("\ni ", "\nI ")
+        haiku = haiku.replace(" i'",  "I'")
+        haiku = haiku.replace("\ni'",  "\nI'")
+
         return haiku
 
     def change_degree(self, degree):
