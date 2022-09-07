@@ -14,8 +14,7 @@ The data structure, which is used for storing the input data. Enables inserting 
 Responsible for reading and preprocessing the input text to a form, where it can be saved to a trie. Uses `nltk.tokenize` for tokenization.
 
 **HaikuGenerator**     
-The main class responsible for haiku generation and validation. (Note: might still split this class up so, that the validation 
-logic is in a separate class)
+The main class responsible for haiku generation and validation. 
 
 ###
 
